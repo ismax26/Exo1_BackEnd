@@ -1,26 +1,23 @@
 from model.task import Task
 
 class TaskController:
-    """Gère les opérations sur les tâches (ajout, suppression, etc.)."""
+    """Gère la logique métier : ajout, suppression, affichage des tâches."""
 
     def __init__(self):
-        self.tasks = []
+        self.tasks = []  # Liste pour stocker les tâches
 
-    def add_task(self, title, description="", due_date=None):
-        task = Task(title, description, due_date)
+    def add_task(self, title):
+        """Ajoute une nouvelle tâche à la liste."""
+        task = Task(title)
         self.tasks.append(task)
         return task
 
     def list_tasks(self):
+        """Retourne la liste des tâches."""
         return self.tasks
 
-    def complete_task(self, index):
-        if 0 <= index < len(self.tasks):
-            self.tasks[index].mark_completed()
-            return True
-        return False
-
     def delete_task(self, index):
+        """Supprime une tâche selon son index."""
         if 0 <= index < len(self.tasks):
             del self.tasks[index]
             return True
