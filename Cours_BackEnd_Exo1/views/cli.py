@@ -8,7 +8,7 @@ from controllers.task_controller import TaskController
 
 
 class CLI:
-    """Interface en ligne de commande (le 'V' de MVC)."""
+    """Interface en ligne de commande (le 'V' du modèle MVC)."""
 
     def __init__(self):
         self.controller = TaskController()
@@ -24,32 +24,43 @@ class CLI:
         """Boucle principale de l'application CLI."""
         while True:
             self.display_menu()
-            choice = input("\nChoix : ")
+            choice = input("\nChoix : ").strip()
 
             if choice == "1":
-                title = input("Titre de la tâche : ")
+                title = input("Titre de la tâche : ").strip()
+                if not title:
+                    print(" Le titre ne peut pas être vide.")
+                    continue
                 task = self.controller.add_task(title)
-                print(f"Tâche ajoutée : {task}")
+                print(f" Tâche ajoutée : {task}")
 
             elif choice == "2":
                 tasks = self.controller.list_tasks()
                 if not tasks:
-                    print("Aucune tâche pour le moment.")
+                    print(" Aucune tâche pour le moment.")
                 else:
-                    print("\n📋 Liste des tâches :")
+                    print("\n Liste des tâches :")
                     for i, task in enumerate(tasks):
                         print(f"{i}. {task}")
 
             elif choice == "3":
-                index = int(input("Numéro de la tâche à supprimer : "))
-                if self.controller.delete_task(index):
-                    print(" Tâche supprimée.")
-                else:
-                    print(" Numéro invalide.")
+                tasks = self.controller.list_tasks()
+                if not tasks:
+                    print(" Aucune tâche à supprimer.")
+                    continue
+
+                try:
+                    index = int(input("Numéro de la tâche à supprimer : "))
+                    if self.controller.delete_task(index):
+                        print(" Tâche supprimée.")
+                    else:
+                        print(" Numéro invalide.")
+                except ValueError:
+                    print(" Veuillez entrer un numéro valide.")
 
             elif choice == "4":
                 print(" Au revoir !")
                 break
 
             else:
-                print("Choix invalide, réessayez.")
+                print(" Choix invalide, réessayez.")
