@@ -1,14 +1,14 @@
 import sys
 import os
 
-# Permet d'importer les modules depuis la racine du projet
+# Permet à Python de trouver les modules situés dans les autres dossiers
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from controllers.task_controller import TaskController
 
 
 class CLI:
-    """Interface en ligne de commande pour la ToDoList."""
+    """Interface en ligne de commande (le 'V' de MVC)."""
 
     def __init__(self):
         self.controller = TaskController()
@@ -16,21 +16,19 @@ class CLI:
     def display_menu(self):
         print("\n=== ToDoList CLI ===")
         print("1️⃣  Ajouter une tâche")
-        print("2️⃣  Lister les tâches")
-        print("3️⃣  Marquer une tâche comme terminée")
-        print("4️⃣  Supprimer une tâche")
-        print("5️⃣  Quitter")
+        print("2️⃣  Afficher la liste des tâches")
+        print("3️⃣  Supprimer une tâche")
+        print("4️⃣  Quitter")
 
     def run(self):
+        """Boucle principale de l'application CLI."""
         while True:
             self.display_menu()
             choice = input("\nChoix : ")
 
             if choice == "1":
-                title = input("Titre : ")
-                description = input("Description : ")
-                due_date = input("Date limite (optionnel) : ")
-                task = self.controller.add_task(title, description, due_date)
+                title = input("Titre de la tâche : ")
+                task = self.controller.add_task(title)
                 print(f"Tâche ajoutée : {task}")
 
             elif choice == "2":
@@ -38,24 +36,18 @@ class CLI:
                 if not tasks:
                     print("Aucune tâche pour le moment.")
                 else:
+                    print("\n📋 Liste des tâches :")
                     for i, task in enumerate(tasks):
                         print(f"{i}. {task}")
 
             elif choice == "3":
-                index = int(input("Numéro de la tâche à terminer : "))
-                if self.controller.complete_task(index):
-                    print(" Tâche complétée !")
-                else:
-                    print(" Tâche introuvable.")
-
-            elif choice == "4":
                 index = int(input("Numéro de la tâche à supprimer : "))
                 if self.controller.delete_task(index):
                     print(" Tâche supprimée.")
                 else:
-                    print(" Tâche introuvable.")
+                    print(" Numéro invalide.")
 
-            elif choice == "5":
+            elif choice == "4":
                 print(" Au revoir !")
                 break
 
