@@ -6,4 +6,5 @@ Une mini application en ligne de commande pour gérer vos tâches avec une struc
 
 Depuis la racine du projet :
 ```bash
-python main.py
+python main.py (terminale vs code) ou via python -m views.web (page Html)
+
