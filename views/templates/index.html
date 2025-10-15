@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList Flask</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 250px;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            background: white;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        a {
+            color: red;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📝 Ma ToDoList</h1>
+
+    <form action="/add" method="post">
+        <input type="text" name="title" placeholder="Nouvelle tâche" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    {{ loop.index0 }}. {{ task }}
+                    <a href="/delete/{{ loop.index0 }}">❌</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune tâche pour le moment.</p>
+    {% endif %}
+</body>
+</html>
